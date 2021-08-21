@@ -23,9 +23,6 @@ public class Sensor {
     @Id
     private String sensorId;
 
-    @Size(min = 1, max = 500, message = "Only 500 characters allowed")
-    private String description;
-
     private String status;
 
     @Transient
