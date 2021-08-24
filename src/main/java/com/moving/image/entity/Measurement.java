@@ -24,6 +24,5 @@ public class Measurement {
 
     private Integer co2;
 
-    @Indexed
     private String sensorId;
 }

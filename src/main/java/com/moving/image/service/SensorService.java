@@ -32,6 +32,6 @@ public interface SensorService {
      * Adds into the measurement repository.
      * Used for the collect measures API
      */
-    void postMeasurements(String sensorId, MeasurementCollectRequest collectRequest) throws ParseException;
+    void postMeasurements(String sensorId, MeasurementCollectRequest collectRequest);
 
 }

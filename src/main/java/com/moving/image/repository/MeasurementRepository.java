@@ -23,6 +23,6 @@ public interface MeasurementRepository extends MongoRepository<Measurement, Stri
      *
      * @param sensorId String sensor identifier
      */
-    @Query(value = "select a from measurements a where a.sensor_id=:id")
+    @Query("{ 'sensor_id' : ?0 }")
     List<Measurement> findAllBySensorId(@Param("id") String sensorId);
 }

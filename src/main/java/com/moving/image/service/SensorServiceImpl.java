@@ -14,8 +14,9 @@ import org.jeasy.rules.api.Facts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -63,7 +64,7 @@ public class SensorServiceImpl implements SensorService{
     }
 
     @Override
-    public void postMeasurements(String sensorId, MeasurementCollectRequest collectRequest) throws ParseException {
+    public void postMeasurements(String sensorId, MeasurementCollectRequest collectRequest) {
         Optional<Sensor> sensorOptional = sensorRepository.findById(sensorId);
         if (!sensorOptional.isPresent()) {
             Sensor sensor = new Sensor();
@@ -82,11 +83,13 @@ public class SensorServiceImpl implements SensorService{
         List<Measurement> measurements = measurementRepository.findAllBySensorId(sensorId);
         Facts facts = computeAlertAction.prepareFacts(measurements, sensorOptional.get());
         computeAlertAction.invoke(facts);
+
+        List<Map<String, Object>> alertsList = facts.get(RuleConstants.ATTR_ALERTS_MAP_LIST);
         Sensor sensor = new Sensor();
         sensor.setSensorId(sensorId);
         sensor.setStatus(facts.get(RuleConstants.ATTR_SENSOR_STATUS));
-        sensor.setAlerts(facts.get(RuleConstants.ATTR_ALERT_LIST));
         sensor.setMetrics(facts.get(RuleConstants.ATTR_METRICS_MAP));
+        sensor.setAlerts(Stream.concat(alertsList.stream(), sensorOptional.get().getAlerts().stream()).collect(Collectors.toList()));
         sensorRepository.save(sensor);
 
     }

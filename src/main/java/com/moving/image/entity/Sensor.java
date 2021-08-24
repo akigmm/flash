@@ -25,9 +25,7 @@ public class Sensor {
 
     private String status;
 
-    @Transient
     private Map<String, Integer> metrics;
 
-    @Transient
     private List<Map<String, Object>> alerts;
 }
