@@ -1,7 +1,7 @@
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/service/ComputeAlertActionTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/rules/MetricsRuleTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/FlashApplicationTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/rules/StatusRuleTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/controller/SensorControllerTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/rules/AlertsRuleTest.java
-/Users/ayushkumar/Desktop/flash/src/test/java/com/moving/image/service/SensorServiceImplTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/controller/SensorControllerTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/rules/StatusRuleTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/rules/MetricsRuleTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/rules/AlertsRuleTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/service/SensorServiceImplTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/FlashApplicationTest.java
+/Users/ayushkumar/Desktop/flash/src/test/java/com/co2/sensors/service/ComputeAlertActionTest.java

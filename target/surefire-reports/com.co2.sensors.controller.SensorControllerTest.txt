@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.co2.sensors.controller.SensorControllerTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.613 s - in com.co2.sensors.controller.SensorControllerTest

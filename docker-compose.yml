@@ -15,7 +15,7 @@ services:
       - $HOME/mongo:/data/db
     healthcheck:
       test: "exit 0"
-  alfred:
+  flash:
     build: target/
     image: flash
     depends_on:
