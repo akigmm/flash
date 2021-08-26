@@ -28,7 +28,8 @@ The final deliverable is a link to a project on github that meets the following 
 # API 1 : Collect measurements
 --------------------------------------------------------------------------------------------------------------------
 Request -: /api/v1/sensors/{uuid}/measurements
-Request -: 
+
+Request Body -: 
 "co2" : 2000,
 "time" : "2019-02-01T18:55:47+00:00"
 }
@@ -36,6 +37,7 @@ Request -:
 # API 2 : Sensor Status
 ---------------------------------------------------------------------------------------------------------------------
 GET /api/v1/sensors/{uuid}
+
 Response:
 {
 "status" : "OK" // Possible status OK,WARN,ALERT
@@ -44,6 +46,7 @@ Response:
 # API 3 -: Sensor Metrics
 ---------------------------------------------------------------------------------------------------------------------
 GET /api/v1/sensors/{uuid}/metrics
+
 Response:
 {
 "maxLast30Days" : 1200,
@@ -54,6 +57,7 @@ Response:
 # API 3 -: Listing all alerts
 
 GET /api/v1/sensors/{uuid}/alerts
+
 Response:
 [
 {
