@@ -26,8 +26,6 @@ criteria:
 • Is written in a language that runs on the JVM
 • Is tested using appropriate testing mechanisms
 • Has appropriate documentation
-• The code, documentation, or the repository should not include any reference to movingimage
-• Don’t include this document in the deliverable
 
 ###### Specifications #####
 
@@ -106,10 +104,10 @@ There are json files in test/resources which is used to load test data for unit 
 * You can either run it directly by executing this command from project's root:
   mvn spring-boot:run
 
-* As a result the web application will be ready to accept requests at http://localhost:8080/ , so you can test the service endpoints for example at: http://localhost:8080/transactions or you can package the project as JAR and deploy it on a standard Java Servlet Container like Tomcat. Here is the Maven command to build the package:
+* As a result the web application will be ready to accept requests at http://localhost:8080/ , so you can test the service endpoints for example at: you can package the project as JAR and deploy it on a standard Java Servlet Container like Tomcat. Here is the Maven command to build the package:
   mvn clean package
 
-* After a successful build, project is being packaged as alfred-1.0.jar under target folder
+* After a successful build, project is being packaged as flash-1.0.jar under target folder
 
 * To run as docker container {Either running individual containers or using docker compose)
   docker network create -d bridge backend (create network to link app and mongo)
@@ -128,10 +126,60 @@ docker-compose up
 
 # Tests #
 * You can either run unit tests and build together using
-  mvn clean install
-
-or only run tests using
-mvn test
+  mvn clean install 
+  
+* or only run tests using
+  mvn test
 
 * If for any reason you would decide to ignore unit tests during the build process, Maven's -skipTests can be used. For example:
   mvn clean package -skipTests
+
+### Scalability and Performance ###
+1. To scale the GET for metrics, status and alerts and POST for measurements introduce streaming for measurements in async
+  * Implement the consumption to reduce single event time so that messages get processed fastly. Event consumption involves 1 DB select call,
+    2 DB update calls and compute new metrics and alerts. Here we can add caching to remove the first DB select call and add 2 cache update calls (batch update)
+    Supporting the computation at measurement stream is done to support higher read availability and lower latency which leads to
+    eventual consistency. We can create partitions based on sensorId which will help in aggregating similar sensors and have multiple consumers
+    Choose partitions and can aggregate sensors over partitions such that we have balanced batches, sent to internal topic and then do batch reads (Applying one record at a time can have quite an impact on performance. Without batching, 
+    there’s an overhead of time and network traffic for every single record, and Kafka has to work much harder as it performs many network round-trips to fetch data)
+
+    Lets say 50K sensors each sending 1-2 measurements per day
+    Rule of thumb - 10 partitions per topic and 10,000 partitions per cluster
+    - Partitions = Desired Throughput / Partition Speed
+      Conservatively, we can estimate that a single partition for a single Kafka topic runs at 10 MB/s.
+      Let's say 1 message is 1 KB - 50 MB per sec - 50*60*60*24 = 4320000 MB per day - 4.3 TB per day
+    - Partitions = 5
+      The replication factor is set to 3 as a default. While partitions reflect horizontal scaling of unique information,
+      replication factors refer to backups. For a replication factor of 3 in the example above, there are 15 partitions in total with 5 partitions
+      being the originals and then 2 copies of each of those unique partitions(IMPORTANT FOR DATA LOSS)
+
+  * We can scale kafka horizontally and vertically - add more brokers and resource size based on load testing
+
+2. How would I change the system to support 100M users hitting each endpoint 10 times/day?
+   100M * 10 in 24 hours ~ 11500 RPS - We can scale application level(implementation discussed above), horizontally(add more nodes) and vertically scaling(increasing machine size)
+- Here the problem statement - availability and latency in GET API which is different for both APIs
+  1. We can add a cache layer (redis) here to support fast retrievals and avoid DB calls everytime
+     update cache async on post measurement consumption - recompute metrics and alerts data for each sensor on measurement stream and update DB and cache -> write through cache
+     This will keep the cache refreshed at all times for popular instrument candlestick data
+     Caching will help in supporting latency and reducing load on DB
+
+  Second thing to support increasing user calls is to horizontally scale service instance(cloud EC2), cache and DB(MySQL) (INCREASE RESOURCES)
+  * Increase no of instances running and add autoscaling of instances based on CPU, Memory utilisation and API throughput (this will add containers whenever gradually users increase)
+  * Increase redis nodes and add replication or sharding for read or writes respectively. Same for MYSQL
+    Sharding is useful to increase performance, reducing the hit and memory load on any one resource.
+    Replication is useful for getting a high availability of reads. If you read from multiple replicas, we will also reduce the hit rate on all resources, but the memory requirement for all resources remains the same. It should be noted that, while we can write to a slave, replication is master->slave only. So we cannot scale writes this way.
+  * SAME FOR MYSQL AS ABOVE
+   
+3. Our system can grow stale (the most recent measurement data we have is few minutes old)
+- The main reason for above will be eventual consistency because of consuming messages in async and in times of load, message processing can take time leading to stale data
+  This means messages are getting accumulated in kafka, so we can add alerts and monitors on visible messages in kafka, event processing time
+  which can be used to autoscaling at spikes. This will help in reducing the errors
+- Keep a timeout at event consumption and in case of timeout push the message to dead letter queue. At time of user call check from DB data
+  and DLQ(if present in queue, consume at that time and refresh updated data). This will result in updated data for client at all times but will lead to increase in latency
+
+
+### Future features ###
+* Apply more validations and descriptive exceptions in pre-processing of input data and api request
+* Add short-circuiting and timeout while reading from database
+* Configure Rule Engine (Jeasy) to make rules configurable - yml based 
+* Docker compose for service and MySQL

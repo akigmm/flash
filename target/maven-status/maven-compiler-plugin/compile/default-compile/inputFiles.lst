@@ -1,9 +1,9 @@
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/RuleConstants.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/exception/NoSensorException.java
+/Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/StatusRule.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/controller/SensorController.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/service/SensorService.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/service/SensorServiceImpl.java
-/Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/StatusAndAlertsRule.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/MetricsRule.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/FlashApplication.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/errors/CustomGlobalExceptionHandler.java
@@ -16,4 +16,5 @@
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/service/ComputeAlertAction.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/client/MeasurementCollectRequest.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/repository/MeasurementRepository.java
+/Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/AlertsRule.java
 /Users/ayushkumar/Desktop/flash/src/main/java/com/moving/image/rules/SensorStatus.java

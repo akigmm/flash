@@ -209,7 +209,9 @@ public class SensorServiceImplTest {
         doNothing().when(computeAlertAction).invoke(facts);
         when(sensorRepository.save(isA(Sensor.class))).thenReturn(sensor);
 
-        MeasurementCollectRequest collectRequest = MeasurementCollectRequest.builder().time("2019-02-01T18:55:47+00:00").co2(2000).build();
+        MeasurementCollectRequest collectRequest = new MeasurementCollectRequest();
+        collectRequest.setCo2(2000);
+        collectRequest.setTime("2019-02-01T18:55:47+00:00");
         sensorService.postMeasurements(sensorId,collectRequest);
 
     }

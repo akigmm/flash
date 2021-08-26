@@ -21,7 +21,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         errors.setError(ex.getMessage());
         errors.setStatus(HttpStatus.NOT_FOUND.value());
 
-        return new ResponseEntity<>(errors, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<CustomErrorResponse>(errors, HttpStatus.NOT_FOUND);
 
     }
 }

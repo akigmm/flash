@@ -1,8 +1,10 @@
 package com.moving.image.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moving.image.client.MeasurementCollectRequest;
 import com.moving.image.client.SensorStatusResponse;
 import com.moving.image.entity.Measurement;
+import com.moving.image.exception.NoSensorException;
 import com.moving.image.service.SensorService;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,13 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -98,8 +101,19 @@ public class SensorControllerTest {
         measurement.setTime("2019-02-01T18:55:47+00:00");
         measurement.setCo2(2000);
 
-        mockMvc.perform(get("/api/v1/sensors/{sensorId}/alerts", sensorId))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+
+        MeasurementCollectRequest collectRequest = new MeasurementCollectRequest();
+        collectRequest.setCo2(2000);
+        collectRequest.setTime("2019-02-01T18:55:47+00:00");
+
+        mockMvc.perform(post("/api/v1/sensors/{sensorId}/measurements", sensorId)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(convertObjectToJsonString(collectRequest)))
                 .andExpect(status().isOk());
+    }
+
+    public static String convertObjectToJsonString(Object object) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
     }
 }

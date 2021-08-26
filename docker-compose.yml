@@ -1,0 +1,28 @@
+version: '3.8'
+
+networks:
+  default:
+    external:
+      name: backend
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - $HOME/mongo:/data/db
+    healthcheck:
+      test: "exit 0"
+  alfred:
+    build: target/
+    image: flash
+    depends_on:
+      - mongo
+    hostname: localhost
+    restart: always
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: "exit 0"

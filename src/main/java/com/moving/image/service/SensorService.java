@@ -4,7 +4,6 @@ import com.moving.image.client.MeasurementCollectRequest;
 import com.moving.image.client.SensorStatusResponse;
 import com.moving.image.exception.NoSensorException;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Rule(name = "Alerts Rule", description = "alert if the CO2 concentrations reach critical levels")
+@Rule(name = "Alerts Rule", description = "creates and stores alerts")
 public class AlertsRule {
 
     @Condition

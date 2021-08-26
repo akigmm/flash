@@ -47,7 +47,7 @@ public class SensorServiceImpl implements SensorService{
     public Map<String, Integer> getMetrics(String sensorId) throws NoSensorException {
         Optional<Sensor> sensorOptional = sensorRepository.findById(sensorId);
         if (!sensorOptional.isPresent()) {
-            throw new NoSensorException("No sensor present for requested sensor_id");
+            throw new NoSensorException("No metrics present for requested sensor_id");
         }
 
         return sensorOptional.get().getMetrics();
@@ -58,7 +58,7 @@ public class SensorServiceImpl implements SensorService{
     public List<Map<String, Object>> getAlerts(String sensorId) throws NoSensorException {
         Optional<Sensor> sensorOptional = sensorRepository.findById(sensorId);
         if (!sensorOptional.isPresent()) {
-            throw new NoSensorException("No sensor present for requested sensor_id");
+            throw new NoSensorException("No alerts present for requested sensor_id");
         }
         return sensorOptional.get().getAlerts();
     }

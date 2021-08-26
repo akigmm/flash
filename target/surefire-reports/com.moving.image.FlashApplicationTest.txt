@@ -1,23 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.moving.image.FlashApplicationTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 2.836 s <<< FAILURE! - in com.moving.image.FlashApplicationTest
-contextLoads(com.moving.image.FlashApplicationTest)  Time elapsed: 0.001 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: 
-Error creating bean with name 'sensorController' defined in file [/Users/ayushkumar/Desktop/flash/target/classes/com/moving/image/controller/SensorController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sensorServiceImpl' defined in file [/Users/ayushkumar/Desktop/flash/target/classes/com/moving/image/service/SensorServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sensorRepository': Invocation of init method failed; nested exception is com.mongodb.util.JSONParseException: 
-update sensors u set u.status=:status WHERE u.sensor_id = :id
-^
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: 
-Error creating bean with name 'sensorServiceImpl' defined in file [/Users/ayushkumar/Desktop/flash/target/classes/com/moving/image/service/SensorServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sensorRepository': Invocation of init method failed; nested exception is com.mongodb.util.JSONParseException: 
-update sensors u set u.status=:status WHERE u.sensor_id = :id
-^
-Caused by: org.springframework.beans.factory.BeanCreationException: 
-Error creating bean with name 'sensorRepository': Invocation of init method failed; nested exception is com.mongodb.util.JSONParseException: 
-update sensors u set u.status=:status WHERE u.sensor_id = :id
-^
-Caused by: com.mongodb.util.JSONParseException: 
-
-update sensors u set u.status=:status WHERE u.sensor_id = :id
-^
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.482 s - in com.moving.image.FlashApplicationTest

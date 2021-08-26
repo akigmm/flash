@@ -3,7 +3,6 @@ package com.moving.image.service;
 import com.moving.image.entity.Measurement;
 import com.moving.image.entity.Sensor;
 import com.moving.image.rules.RuleConstants;
-import com.moving.image.rules.SensorStatus;
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
