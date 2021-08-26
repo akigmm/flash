@@ -198,6 +198,7 @@ public class SensorServiceImplTest {
         Facts facts = new Facts();
         facts.put(RuleConstants.ATTR_MEASUREMENT_LAST_30_LIST, new ArrayList<>());
         facts.put(RuleConstants.ATTR_SENSOR_STATUS, sensor.getStatus());
+        facts.put(RuleConstants.ATTR_SENSOR_STATUS_LIST, new ArrayList<>());
         facts.put(RuleConstants.ATTR_ALERTS_MAP_LIST, new ArrayList<>());
         facts.put(RuleConstants.ATTR_METRICS_MAP, sensor.getMetrics());
         facts.put(RuleConstants.ATTR_CO2_LEVEL, 1800);

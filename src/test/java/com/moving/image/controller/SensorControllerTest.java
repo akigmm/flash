@@ -65,8 +65,8 @@ public class SensorControllerTest {
         mockMvc.perform(get("/api/v1/sensors/{sensorId}/metrics", sensorId))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.maxLast30Days", is(1200)))
-                .andExpect(jsonPath("$.avgLast30Days", is(1000)));
+                .andExpect(jsonPath("$.maxLast30Days", is(1000)))
+                .andExpect(jsonPath("$.avgLast30Days", is(1200)));
     }
 
     @Test
@@ -98,9 +98,6 @@ public class SensorControllerTest {
         measurement.setTime("2019-02-01T18:55:47+00:00");
         measurement.setCo2(2000);
 
-        MeasurementCollectRequest collectRequest = MeasurementCollectRequest.builder().time("2019-02-01T18:55:47+00:00").co2(2000).build();
-
-        doNothing().when(sensorService).postMeasurements(sensorId,collectRequest);
         mockMvc.perform(get("/api/v1/sensors/{sensorId}/alerts", sensorId))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());

@@ -1,7 +1,8 @@
 package com.moving.image.config;
 
+import com.moving.image.rules.AlertsRule;
 import com.moving.image.rules.MetricsRule;
-import com.moving.image.rules.StatusAndAlertsRule;
+import com.moving.image.rules.StatusRule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.jeasy.rules.api.Rules;
@@ -34,8 +35,9 @@ public class RuleEngineConfig {
     @Bean
     public Rules rules() {
         Rules rules = new Rules();
-        rules.register(new StatusAndAlertsRule());
+        rules.register(new StatusRule());
         rules.register(new MetricsRule());
+        rules.register(new AlertsRule());
         return rules;
     }
 }

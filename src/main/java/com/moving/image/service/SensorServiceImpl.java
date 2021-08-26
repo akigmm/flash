@@ -65,9 +65,9 @@ public class SensorServiceImpl implements SensorService{
 
     @Override
     public void postMeasurements(String sensorId, MeasurementCollectRequest collectRequest) {
+        Sensor sensor = new Sensor();
         Optional<Sensor> sensorOptional = sensorRepository.findById(sensorId);
         if (!sensorOptional.isPresent()) {
-            Sensor sensor = new Sensor();
             sensor.setSensorId(sensorId);
             sensor.setStatus(SensorStatus.OK.label);
             sensor.setAlerts(new ArrayList<>());
@@ -81,15 +81,16 @@ public class SensorServiceImpl implements SensorService{
         measurementRepository.save(measurement);
 
         List<Measurement> measurements = measurementRepository.findAllBySensorId(sensorId);
-        Facts facts = computeAlertAction.prepareFacts(measurements, sensorOptional.get());
+        Facts facts = computeAlertAction.prepareFacts(measurements, sensorOptional.orElse(sensor));
         computeAlertAction.invoke(facts);
 
         List<Map<String, Object>> alertsList = facts.get(RuleConstants.ATTR_ALERTS_MAP_LIST);
-        Sensor sensor = new Sensor();
+        List<String> statusList = facts.get(RuleConstants.ATTR_SENSOR_STATUS_LIST);
         sensor.setSensorId(sensorId);
-        sensor.setStatus(facts.get(RuleConstants.ATTR_SENSOR_STATUS));
+        sensor.setStatus(statusList.isEmpty()?sensorOptional.orElse(sensor).getStatus():statusList.get(0));
         sensor.setMetrics(facts.get(RuleConstants.ATTR_METRICS_MAP));
-        sensor.setAlerts(Stream.concat(alertsList.stream(), sensorOptional.get().getAlerts().stream()).collect(Collectors.toList()));
+        sensor.setAlerts(sensorOptional.map(value -> Stream.concat(alertsList.stream(),
+                value.getAlerts().stream()).collect(Collectors.toList())).orElse(alertsList));
         sensorRepository.save(sensor);
 
     }
