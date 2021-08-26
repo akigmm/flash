@@ -105,15 +105,22 @@ There are json files in test/resources which is used to load test data for unit 
 
 * To run as docker container {Either running individual containers or using docker compose)
 > docker network create -d bridge backend (create network to link app and mongo)
+
 > mvn clean install
+
 > docker image build -t flash . //create app image
+
 > docker run -d -p 27017:27017 --name mongo --net backend mongo:latest  //run mongo container
+
 > docker run --rm -p 8080:8080 --name flash --net backend --link mongo:mongo flash:latest //run app image
 
 # For docker-compose we need to have the application image already created before running the Docker Compose file.
 > docker network create -d bridge backend (create network to link app and mongo)
+
 > mvn clean install
+
 > docker image build -t flash . //create app image
+
 > docker-compose up
 
 ##### P.S.: Docker approach is not working right now, facing errors of not finding main manifest attribute in target jar
